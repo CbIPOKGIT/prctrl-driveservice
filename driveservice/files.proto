@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "./driveservice";
+
+// Інформація про файл
+message FileInfo {
+    string  name        = 1;
+    string  id          = 2;
+    uint64  size        = 3;
+    bool    is_dir      = 4;
+    string  parent_id   = 5;
+    string  parent_name = 6;
+    string  created     = 7;
+    string  modified    = 8;
+}
+
+message FilesInfo {
+    repeated FileInfo files = 1;
+}
+
+message FileContent {
+    bytes   content = 1;
+}
+
+message UploadRequest {
+    string              name    = 1; // Ім'я файлу
+    bytes               content = 2; // Вміст файлу
+    optional FileInfo   parent  = 3; // Батьківська папка
+    bool                share   = 4; // Розшарити для всих користувачів
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = "./driveservice";
+
+import "driveservice/files.proto";
+
+service DriveService {
+    rpc FilesList(FileInfo) returns (FilesInfo) {};
+    rpc Upload(UploadRequest) returns (FileInfo) {};
+    rpc Download(FileInfo) returns (FileContent) {};
+}
