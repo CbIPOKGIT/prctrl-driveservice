@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/CbIPOKGIT/prctrl-driveservice/driveservice"
-	"github.com/CbIPOKGIT/prctrl-driveservice/internal/entity"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
@@ -36,7 +35,7 @@ func NewClient(host, token string) *DriveClient {
 }
 
 // Upload - завантаження файлу на g-диск.
-func (dc *DriveClient) Upload(name string, content []byte, parent ...*entity.DriveEntityFileInfo) (*FileInfo, error) {
+func (dc *DriveClient) Upload(name string, content []byte, parent ...*FileInfo) (*FileInfo, error) {
 	client, err := dc.getClient()
 	if err != nil {
 		return nil, err
@@ -50,11 +49,12 @@ func (dc *DriveClient) Upload(name string, content []byte, parent ...*entity.Dri
 
 	if len(parent) > 0 {
 		request.Parent = &driveservice.FileInfo{
-			Name:     parent[0].Name,
-			Id:       parent[0].Fileid,
-			IsDir:    parent[0].IsDir,
-			ParentId: parent[0].ParentId,
-			Size:     parent[0].Size,
+			Name:       parent[0].Name,
+			Id:         parent[0].Id,
+			IsDir:      true,
+			ParentId:   parent[0].ParentId,
+			ParentName: parent[0].ParentName,
+			Size:       parent[0].Size,
 		}
 	}
 
