@@ -24,9 +24,11 @@ func (ds *DriveService) Start() {
 		log.Fatal("Failed to listen: ", err)
 	}
 
-	server := grpc.NewServer(grpc.ChainUnaryInterceptor(
-		middlewares.TokenMiddleware(),
-	))
+	server := grpc.NewServer(
+		grpc.ChainUnaryInterceptor(middlewares.TokenMiddleware()),
+		grpc.MaxRecvMsgSize(1e8),
+		grpc.MaxSendMsgSize(1e8),
+	)
 
 	driveservice.RegisterDriveServiceServer(server, ds)
 
