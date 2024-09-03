@@ -133,6 +133,10 @@ func (dc *DriveClient) Download(filter *FileInfo) ([]byte, error) {
 func (dc *DriveClient) getClient() (driveservice.DriveServiceClient, error) {
 	opts := []grpc.DialOption{
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultCallOptions(
+			grpc.MaxCallSendMsgSize(1e7),
+			grpc.MaxCallRecvMsgSize(1e7),
+		),
 	}
 
 	conn, err := grpc.NewClient(dc.host, opts...)
