@@ -9,14 +9,14 @@ import (
 // Використовується для фільтрації файлів та папок при запитах до Google Drive,
 // або для збереження інформації про файл.
 type DriveEntityFileInfo struct {
-	Name       string
-	Fileid     string
-	IsDir      bool
-	ParentName string
-	ParentId   string
-	Size       uint64
-	Created    string
-	Modified   string
+	Name       string `json:"name" form:"name"`
+	Fileid     string `json:"file-id" form:"file-id"`
+	IsDir      bool   `json:"is-dir" form:"is-dir"`
+	ParentName string `json:"parent-name" form:"parent-name"`
+	ParentId   string `json:"parent-id" form:"parent-id"`
+	Size       uint64 `json:"size" form:"size"`
+	Created    string `json:"created" form:"created"`
+	Modified   string `json:"modified" form:"modified"`
 }
 
 // IsEmpty - перевіряє чи є фільтр порожнім.
