@@ -6,6 +6,7 @@ import (
 
 	"github.com/CbIPOKGIT/prctrl-driveservice/internal/entity"
 	"google.golang.org/api/drive/v3"
+	"google.golang.org/api/googleapi"
 )
 
 // UploadOptions - додаткові параметри завантаження файлу.
@@ -51,7 +52,12 @@ func UploadFile(filename string, content []byte, options *UploadOptions) (*drive
 		Parents: parents,
 	}
 
-	return service.Files.Create(file).Media(bytes.NewReader(content)).Do()
+	gOptions := make([]googleapi.MediaOption, 0)
+	if ct := getMimeTypeFromExtension(filename); ct != "" {
+		gOptions = append(gOptions, googleapi.ContentType(ct))
+	}
+
+	return service.Files.Create(file).Media(bytes.NewReader(content), gOptions...).Do()
 }
 
 // CreateFolder - створюємо папку на Google Drive.
