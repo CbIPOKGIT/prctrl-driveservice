@@ -59,3 +59,16 @@ func (ds *DriveService) Download(ctx context.Context, req *driveservice.FileInfo
 
 	return &driveservice.FileContent{Content: content}, nil
 }
+
+// Delete - видалення файлу з g-диска.
+//
+// FileInfo - набір фільтрів для пошуку файлу. Видаляємо перший файл, який відповідає умовам.
+func (ds *DriveService) Delete(ctx context.Context, req *driveservice.FileInfo) (*driveservice.SuccessMessage, error) {
+	filter := dataconverter.InfoFromRequest(req)
+
+	if ok, err := driveconnector.DeleteFileFromDrive(filter); err == nil {
+		return &driveservice.SuccessMessage{Ok: ok}, nil
+	} else {
+		return nil, err
+	}
+}

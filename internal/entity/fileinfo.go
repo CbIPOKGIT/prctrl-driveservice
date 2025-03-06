@@ -22,7 +22,12 @@ type DriveEntityFileInfo struct {
 // IsEmpty - перевіряє чи є фільтр порожнім.
 // Повинно бути заповнене хоча б одне поле з ID чи іменем папки/файлу.
 func (f *DriveEntityFileInfo) IsEmpty() bool {
-	return f.Name == "" && f.Fileid == "" && f.ParentName == "" && f.ParentId == ""
+	return f.IsEmptyIdent() && f.ParentName == "" && f.ParentId == ""
+}
+
+// IsEmptyIdent - перевіряє чи порожні дані файлу у фільтрі
+func (f *DriveEntityFileInfo) IsEmptyIdent() bool {
+	return f.Name == "" && f.Fileid == ""
 }
 
 // ToQuery - конвертує дані в рядок запиту для пошуку файлів та папок.
