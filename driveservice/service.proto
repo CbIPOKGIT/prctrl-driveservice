@@ -4,8 +4,13 @@ option go_package = "./driveservice";
 
 import "driveservice/files.proto";
 
+message SuccessMessage {
+    bool ok = 1;
+}
+
 service DriveService {
     rpc FilesList(FileInfo) returns (FilesInfo) {};
     rpc Upload(UploadRequest) returns (FileInfo) {};
     rpc Download(FileInfo) returns (FileContent) {};
+    rpc Delete(FileInfo) returns (SuccessMessage) {};
 }
