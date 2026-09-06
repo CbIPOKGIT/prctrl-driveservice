@@ -36,6 +36,7 @@ func startHttpService() {
 
 	apiGroup.GET("/file", api.LoadFile)
 	apiGroup.PUT("/file", api.UploadFile)
+	apiGroup.DELETE("/file", api.DeleteFile)
 
 	log.Printf("Starting http server on port %s", os.Getenv("API_PORT"))
 	if err := server.Run(":" + os.Getenv("API_PORT")); err != nil {

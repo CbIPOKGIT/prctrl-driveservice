@@ -108,3 +108,24 @@ func UploadFile(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 	}
 }
+
+func DeleteFile(c *gin.Context) {
+	filters := &entity.DriveEntityFileInfo{}
+	if err := c.BindQuery(filters); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	_, err := driveconnector.DeleteFileFromDrive(filters)
+	if err != nil {
+		if err.Error() == entity.ERROR_FILTERS_ARE_EMPTY {
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, gin.H{"message": "File deleted"})
+}
